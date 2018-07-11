@@ -1,0 +1,30 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# nyc test coverage
+.nyc_output
+
+# Built files
+dist
+compiled
+.rpt2_cache
+
+# dotenv environment variables file
+.env
+
+# IDE
+.vscode
+.idea
+
+# Docs
+docs
