@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 import { raw } from 'body-parser';
 import verifier from './verifier';
 import Clova from './types';
