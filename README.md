@@ -31,7 +31,7 @@ const clovaSkillHandler = clova.Client
     switch (intent) {
       case 'Clova.YesIntent':
         // Build speechObject directly for response
-        clova.responseHelper.setSimpleSpeech({
+        responseHelper.setSimpleSpeech({
           lang: 'ja',
           type: 'PlainText',
           value: 'はいはい',
@@ -39,7 +39,7 @@ const clovaSkillHandler = clova.Client
         break;
       case 'Clova.NoIntent':
         // Or build speechObject with SpeechBuilder for response
-        clova.responseHelper.setSimpleSpeech(
+        responseHelper.setSimpleSpeech(
           clova.SpeechBuilder.createSpeechText('いえいえ')
         );
         break;
