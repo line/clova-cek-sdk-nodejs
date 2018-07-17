@@ -1,5 +1,5 @@
 import Clova from './types';
-import 'core-js/library/fn/object/values';
+import 'core-js/fn/object/values';
 
 /**
  * Create Context for clova response.
