@@ -102,6 +102,12 @@ describe('Clova Skill Client Context: LaunchRequest', () => {
     expect(responseObject.sessionAttributes).toEqual({});
   });
 
+  it('should set sessionAttributes for response object', () => {
+    const sessionAttributes = { intent: 'AddInfo' };
+    context.setSessionAttributes(sessionAttributes);
+    expect(responseObject.sessionAttributes).toEqual(sessionAttributes);
+  });
+
   it('should not get any slots from launch request', () => {
     const slots = context.getSlots();
     expect(slots).toEqual({});
@@ -163,5 +169,10 @@ describe('Clova Skill Client Context: IntentRequest', () => {
   it('should get sessionId from intent request', () => {
     const sessionId = context.getSessionId();
     expect(sessionId).toBe('a29cfead-c5ba-474d-8745-6c1a6625f0c5');
+  });
+
+  it('should get sessionAttributes from intent request', () => {
+    const sessionAttributes = context.getSessionAttributes();
+    expect(sessionAttributes).toEqual({ intent: 'OrderPizza' });
   });
 });
