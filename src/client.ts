@@ -85,6 +85,22 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
       }
     };
   }
+
+  lambda(): Function {
+    return async (event: any) => {
+      const ctx = new Context(event);
+
+      const requestType = ctx.requestObject.request.type;
+      const requestHandler = this.config.requestHandlers[requestType];
+
+      if (requestHandler) {
+        await requestHandler.call(ctx, ctx);
+        return ctx.responseObject;
+      } else {
+        throw new Error(`Unable to find requestHandler for '${requestType}'`);
+      }
+    };
+  }
 }
 
 export default class Client {
