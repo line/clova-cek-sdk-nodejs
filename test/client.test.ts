@@ -140,4 +140,103 @@ describe('Clova Skill Client', () => {
         done();
       });
   });
+
+  it('should contain outputSpeech response on registered handler (firebase)', done => {
+    const skillRequestHandler = Client.configureSkill()
+      .on('LaunchRequest', mockLaunchHandler)
+      .firebase();
+    app.post('/clova', skillRequestHandler);
+
+    request(app)
+      .post('/clova')
+      .send(launchRequestJSON)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then(response => {
+        const { outputSpeech } = response.body.response;
+        expect(mockLaunchHandler).toBeCalled();
+        expect(outputSpeech).toEqual({
+          type: 'SimpleSpeech',
+          values: launchSpeechInfo,
+        });
+        done();
+      });
+  });
+
+  it('should return skeleton response on empty handler (firebase)', done => {
+    const mockEmptyHandler = jest.fn();
+    const mockEmptyContext = new Context(launchRequestJSON);
+    const skillRequestHandler = Client.configureSkill()
+      .on('LaunchRequest', mockEmptyHandler)
+      .firebase();
+    app.post('/clova', skillRequestHandler);
+
+    request(app)
+      .post('/clova')
+      .send(launchRequestJSON)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then(response => {
+        expect(mockEmptyHandler).toBeCalled();
+        expect(mockEmptyHandler).toBeCalledWith(mockEmptyContext);
+        done();
+      });
+  });
+
+  it('should return error on unregistered request (firebase)', done => {
+    const skillRequestHandler = Client.configureSkill()
+      .on('LaunchRequest', mockLaunchHandler)
+      .firebase();
+    app.post('/clova', skillRequestHandler);
+
+    request(app)
+      .post('/clova')
+      .send(intentRequestJSON)
+      .expect(500)
+      .then(response => {
+        expect(mockLaunchHandler).not.toBeCalled();
+        expect(console.error).toBeCalledWith(`Unable to find requestHandler for 'IntentRequest'`);
+        done();
+      });
+  });
+
+  it('should contain outputSpeech response on registered handler (lambda)', async done => {
+    const skillRequestHandler = Client.configureSkill()
+      .on('LaunchRequest', mockLaunchHandler)
+      .lambda();
+
+    const response = await skillRequestHandler(launchRequestJSON);
+    const { outputSpeech } = response.response;
+    expect(mockLaunchHandler).toBeCalled();
+    expect(outputSpeech).toEqual({
+      type: 'SimpleSpeech',
+      values: launchSpeechInfo,
+    });
+    done();
+  });
+
+  it('should return skeleton response on empty handler (lambda)', async done => {
+    const mockEmptyHandler = jest.fn();
+    const mockEmptyContext = new Context(launchRequestJSON);
+    const skillRequestHandler = Client.configureSkill()
+      .on('LaunchRequest', mockEmptyHandler)
+      .lambda();
+
+    const response = await skillRequestHandler(launchRequestJSON);
+    expect(mockEmptyHandler).toBeCalled();
+    expect(mockEmptyHandler).toBeCalledWith(mockEmptyContext);
+    done();
+  });
+
+  it('should return error on unregistered request (lambda)', async done => {
+    const skillRequestHandler = Client.configureSkill()
+      .on('LaunchRequest', mockLaunchHandler)
+      .lambda();
+
+    await skillRequestHandler(intentRequestJSON).catch(e => {
+      expect(mockLaunchHandler).not.toBeCalled();
+      expect(e.message).toEqual(`Unable to find requestHandler for 'IntentRequest'`);
+      done();
+    });
+  });
 });
