@@ -86,6 +86,12 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
     };
   }
 
+  /**
+   * Create lambda handler for dispatching request.
+   *
+   * @returns {Function}
+   * @memberOf SkillConfigurator
+   */
   lambda(): Function {
     return async (event: any) => {
       const ctx = new Context(event);
@@ -102,6 +108,13 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
     };
   }
 
+  /**
+   * Create firebase handler for dispatching request.
+   * However, the contents are express.
+   *
+   * @returns {Function}
+   * @memberOf SkillConfigurator
+   */
   firebase(): Function {
     return this.handle();
   }
