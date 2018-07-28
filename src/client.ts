@@ -103,24 +103,7 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
   }
 
   firebase(): Function {
-    return async (request: any, response: any) => {
-      const ctx = new Context(request.body);
-
-      try {
-        const requestType = ctx.requestObject.request.type;
-        const requestHandler = this.config.requestHandlers[requestType];
-
-        if (requestHandler) {
-          await requestHandler.call(ctx, ctx);
-          response.send(ctx.responseObject);
-        } else {
-          throw new Error(`Unable to find requestHandler for '${requestType}'`);
-        }
-      } catch (error) {
-        console.error(error.message);
-        response.send(error);
-      }
-    };
+    return this.handle();
   }
 }
 
