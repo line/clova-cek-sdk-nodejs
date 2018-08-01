@@ -57,7 +57,8 @@
         "statements": 95
       }
     },
-    "collectCoverage": true
+    "collectCoverage": true,
+    "testEnvironment": "node"
   },
   "devDependencies": {
     "@types/jest": "^22.0.0",
