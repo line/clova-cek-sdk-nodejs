@@ -196,99 +196,99 @@ declare namespace Clova {
   }
 
   export type Middleware = (req: express.Request, res: express.Response, next: express.NextFunction) => void;
-}
 
-export declare namespace audioPlayer {
-  interface PlayFinished {
-    namespace: 'AudioPlayer';
-    name: 'PlayFinished';
-    payload: {
-      offsetInMilliseconds: number;
-      token: string;
+  export namespace audioPlayer {
+    interface PlayFinished {
+      namespace: 'AudioPlayer';
+      name: 'PlayFinished';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface PlayPaused {
+      namespace: 'AudioPlayer';
+      name: 'PlayPaused';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface PlayResumed {
+      namespace: 'AudioPlayer';
+      name: 'PlayResumed';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface PlayStarted {
+      namespace: 'AudioPlayer';
+      name: 'PlayStarted';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface PlayStopped {
+      namespace: 'AudioPlayer';
+      name: 'PlayStopped';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface ProgressReportDelayPassed {
+      namespace: 'AudioPlayer';
+      name: 'ProgressReportDelayPassed';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface ProgressReportIntervalPassed {
+      namespace: 'AudioPlayer';
+      name: 'ProgressReportIntervalPassed';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface ProgressReportPositionPassed {
+      namespace: 'AudioPlayer';
+      name: 'ProgressReportPositionPassed';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface StreamRequested {
+      namespace: 'AudioPlayer';
+      name: 'StreamRequested';
+      payload: any;
     }
   }
 
-  interface PlayPaused {
-    namespace: 'AudioPlayer';
-    name: 'PlayPaused';
-    payload: {
-      offsetInMilliseconds: number;
-      token: string;
+  export namespace clovaSkill {
+    interface SkillEnabled {
+      namespace: 'ClovaSkill';
+      name: 'SkillEnabled';
+      payload: null;
     }
-  }
 
-  interface PlayResumed {
-    namespace: 'AudioPlayer';
-    name: 'PlayResumed';
-    payload: {
-      offsetInMilliseconds: number;
-      token: string;
+    interface SkillDisabled {
+      namespace: 'ClovaSkill';
+      name: 'SkillDisabled';
+      payload: null;
     }
-  }
-
-  interface PlayStarted {
-    namespace: 'AudioPlayer';
-    name: 'PlayStarted';
-    payload: {
-      offsetInMilliseconds: number;
-      token: string;
-    }
-  }
-
-  interface PlayStopped {
-    namespace: 'AudioPlayer';
-    name: 'PlayStopped';
-    payload: {
-      offsetInMilliseconds: number;
-      token: string;
-    }
-  }
-
-  interface ProgressReportDelayPassed {
-    namespace: 'AudioPlayer';
-    name: 'ProgressReportDelayPassed';
-    payload: {
-      offsetInMilliseconds: number;
-      token: string;
-    }
-  }
-
-  interface ProgressReportIntervalPassed {
-    namespace: 'AudioPlayer';
-    name: 'ProgressReportIntervalPassed';
-    payload: {
-      offsetInMilliseconds: number;
-      token: string;
-    }
-  }
-
-  interface ProgressReportPositionPassed {
-    namespace: 'AudioPlayer';
-    name: 'ProgressReportPositionPassed';
-    payload: {
-      offsetInMilliseconds: number;
-      token: string;
-    }
-  }
-
-  interface StreamRequested {
-    namespace: 'AudioPlayer';
-    name: 'StreamRequested';
-    payload: any;
-  }
-}
-
-export declare namespace clovaSkill {
-  interface SkillEnabled {
-    namespace: 'ClovaSkill';
-    name: 'SkillEnabled';
-    payload: null;
-  }
-
-  interface SkillDisabled {
-    namespace: 'ClovaSkill';
-    name: 'SkillDisabled';
-    payload: null;
   }
 }
 
