@@ -35,6 +35,15 @@ export class Context implements Clova.ClientContext {
   }
 
   /**
+   * Get user from clova request
+   *
+   * @memberOf Context
+   */
+  getUser(): user {
+    return this.requestObject.session.user;
+  }
+
+  /**
    * Get sessionId from clova request
    *
    * @memberOf Context

@@ -75,6 +75,11 @@ declare namespace Clova {
     };
   };
 
+  export type User = {
+      userId: string;
+      accessToken?: string;
+  };
+
   export interface ResponseBody {
     response: Response;
     sessionAttributes: object;
