@@ -145,4 +145,22 @@ export class Context implements Clova.ClientContext {
     this.setOutputSpeech(outputSpeech, reprompt);
     return this;
   }
+
+  /**
+   * Get sessionAttributes from clova request.
+   *
+   * @memberOf Context
+   */
+  getSessionAttributes(): object {
+    return this.requestObject.session.sessionAttributes;
+  }
+
+  /**
+   * Set sessionAttributes for clova response.
+   *
+   * @memberOf Context
+   */
+  setSessionAttributes(sessionAttributes: object): void {
+    this.responseObject.sessionAttributes = sessionAttributes;
+  }
 }

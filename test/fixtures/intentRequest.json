@@ -2,7 +2,9 @@
   "version": "0.1.0",
   "session": {
     "new": false,
-    "sessionAttributes": {},
+    "sessionAttributes": {
+      "intent": "OrderPizza"
+    },
     "sessionId": "a29cfead-c5ba-474d-8745-6c1a6625f0c5",
     "user": {
       "userId": "V0qe",
