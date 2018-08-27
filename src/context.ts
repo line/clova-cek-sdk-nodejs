@@ -96,9 +96,8 @@ export class Context implements Clova.ClientContext {
   setOutputSpeech(outputSpeech: Clova.OutputSpeech, reprompt: boolean = false): void {
     if (reprompt) {
       this.responseObject.response.reprompt = { outputSpeech };
-    } else {
-      this.responseObject.response.outputSpeech = outputSpeech;
     }
+    this.responseObject.response.outputSpeech = outputSpeech;
   }
 
   /**
