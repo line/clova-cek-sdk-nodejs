@@ -2,7 +2,7 @@ import { Client } from '../src/index';
 import { Context } from '../src/context';
 import { SpeechBuilder } from '../src/speechBuilder';
 import request from 'supertest';
-import express from 'express';
+import * as express from 'express';
 import bodyParser from 'body-parser';
 
 /**
