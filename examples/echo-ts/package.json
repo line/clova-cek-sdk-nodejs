@@ -1,0 +1,20 @@
+{
+  "name": "clova-echo-ts",
+  "version": "0.0.1",
+  "description": "An example clova extension",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@line/clova-cek-sdk-nodejs": "^1.0.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.17.0",
+    "@types/express": "^4.16.0"
+  }
+}

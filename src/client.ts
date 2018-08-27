@@ -1,3 +1,4 @@
+import express from 'express';
 import { Context } from './context';
 import Clova from './types';
 
@@ -72,10 +73,10 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
   /**
    * Create esxpress route handler for dispatching request.
    *
-   * @returns {Function}
+   * @returns {express.RequestHandler}
    * @memberOf SkillConfigurator
    */
-  public handle(): Function {
+  public handle(): express.RequestHandler {
     return async (req: any, res: any) => {
       const ctx = new Context(req.body);
 
