@@ -1,5 +1,7 @@
 # Clova CEK SDK Nodejs
 
+[![Build Status](https://travis-ci.org/line/clova-cek-sdk-nodejs.svg?branch=master)](https://travis-ci.org/line/clova-cek-sdk-nodejs)
+
 ## Getting Started
 
 ### Installing
