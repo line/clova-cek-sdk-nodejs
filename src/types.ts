@@ -56,6 +56,7 @@ declare namespace Clova {
         [key: string]: {
           name: string;
           value: SlotValue;
+          valueType?: SlotValueType;
         };
       };
     };
@@ -159,6 +160,7 @@ declare namespace Clova {
   export type SlotValue = string | number | null;
   export type SpeechLang = 'ja' | 'ko' | 'en';
   export type OutputSpeechType = 'SimpleSpeech' | 'SpeechList' | 'SpeechSet';
+  export type SlotValueType = 'DATE' | 'DATE.INTERVAL' | 'TIME' | 'TIME.INTERVAL';
 
   export interface SkillConfigurator {
     config: {
