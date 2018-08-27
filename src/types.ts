@@ -42,7 +42,7 @@ declare namespace Clova {
     };
   };
 
-  export type Request = LaunchRequest | IntentRequest | SessionEndedRequest;
+  export type Request = LaunchRequest | IntentRequest | EventRequest | SessionEndedRequest;
 
   export type LaunchRequest = {
     type: 'LaunchRequest';
@@ -61,6 +61,15 @@ declare namespace Clova {
       };
     };
   };
+
+  export type EventRequest = {
+    type: 'EventRequest';
+    requestId: string;
+    timestamp: string;
+    locale: string;
+    extensionId: string;
+    event: clovaSkill.SkillEnabled | clovaSkill.SkillDisabled | audioPlayer.PlayFinished | audioPlayer.PlayPaused | audioPlayer.PlayResumed | audioPlayer.PlayStarted | audioPlayer.PlayStopped | audioPlayer.ProgressReportDelayPassed | audioPlayer.ProgressReportIntervalPassed | audioPlayer.ProgressReportPositionPassed | audioPlayer.StreamRequested;
+  }
 
   export type SessionEndedRequest = {
     type: 'SessionEndedRequest';
@@ -197,6 +206,100 @@ declare namespace Clova {
   }
 
   export type Middleware = (req: express.Request, res: express.Response, next: express.NextFunction) => void;
+
+  export namespace audioPlayer {
+    interface PlayFinished {
+      namespace: 'AudioPlayer';
+      name: 'PlayFinished';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface PlayPaused {
+      namespace: 'AudioPlayer';
+      name: 'PlayPaused';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface PlayResumed {
+      namespace: 'AudioPlayer';
+      name: 'PlayResumed';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface PlayStarted {
+      namespace: 'AudioPlayer';
+      name: 'PlayStarted';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface PlayStopped {
+      namespace: 'AudioPlayer';
+      name: 'PlayStopped';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface ProgressReportDelayPassed {
+      namespace: 'AudioPlayer';
+      name: 'ProgressReportDelayPassed';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface ProgressReportIntervalPassed {
+      namespace: 'AudioPlayer';
+      name: 'ProgressReportIntervalPassed';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface ProgressReportPositionPassed {
+      namespace: 'AudioPlayer';
+      name: 'ProgressReportPositionPassed';
+      payload: {
+        offsetInMilliseconds: number;
+        token: string;
+      }
+    }
+
+    interface StreamRequested {
+      namespace: 'AudioPlayer';
+      name: 'StreamRequested';
+      payload: any;
+    }
+  }
+
+  export namespace clovaSkill {
+    interface SkillEnabled {
+      namespace: 'ClovaSkill';
+      name: 'SkillEnabled';
+      payload: null;
+    }
+
+    interface SkillDisabled {
+      namespace: 'ClovaSkill';
+      name: 'SkillDisabled';
+      payload: null;
+    }
+  }
 }
 
 export default Clova;
