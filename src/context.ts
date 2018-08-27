@@ -102,6 +102,16 @@ export class Context implements Clova.ClientContext {
   }
 
   /**
+   * Set reprompt content
+   *
+   * @param {Clova.OutputSpeech} outputSpeech
+   * @memberOf Context
+   */
+  setReprompt(outputSpeech: Clova.OutputSpeech): void {
+    this.responseObject.response.reprompt = { outputSpeech };
+  }
+
+  /**
    * Set SimpleSpeech object for outputSpeech content.
    *
    * @param {Clova.SpeechInfoObject} speechInfo

@@ -76,8 +76,8 @@ declare namespace Clova {
   };
 
   export type User = {
-      userId: string;
-      accessToken?: string;
+    userId: string;
+    accessToken?: string;
   };
 
   export interface ResponseBody {
@@ -191,6 +191,7 @@ declare namespace Clova {
     setSpeechSet(speechInfoBrief: SpeechInfoObject, speechInfoVerbose: OutputSpeechVerbose, reprompt?: boolean): this;
     getSessionAttributes(): object;
     setSessionAttributes(sessionAttributes: object): void;
+    setReprompt(outputSpeech: OutputSpeech): void;
   }
 
   export type Middleware = (req: express.Request, res: express.Response, next: express.NextFunction) => void;
