@@ -1,9 +1,9 @@
-import { Client } from '../src/index';
-import { Context } from '../src/context';
-import { SpeechBuilder } from '../src/speechBuilder';
-import request from 'supertest';
-import express from 'express';
 import bodyParser from 'body-parser';
+import express from 'express';
+import request from 'supertest';
+import { Context } from '../src/context';
+import { Client } from '../src/index';
+import { SpeechBuilder } from '../src/speechBuilder';
 
 /**
  * Clova Skill Client test
@@ -32,6 +32,7 @@ describe('Clova Skill Client', () => {
     });
     mockIntentHandler = jest.fn();
     mockSessionEndedHandler = jest.fn();
+    // tslint:disable-next-line:no-empty
     jest.spyOn(global.console, 'error').mockImplementation(() => {});
   });
 
@@ -41,7 +42,7 @@ describe('Clova Skill Client', () => {
 
   it('should register request handler', () => {
     const skillConfigurator = Client.configureSkill();
-    expect(skillConfigurator.config.requestHandlers.LaunchRequest).toBeUndefined;
+    expect(skillConfigurator.config.requestHandlers.LaunchRequest).toBeUndefined();
 
     skillConfigurator.on('LaunchRequest', mockLaunchHandler);
     expect(skillConfigurator.config.requestHandlers.LaunchRequest).toEqual(mockLaunchHandler);
@@ -49,7 +50,7 @@ describe('Clova Skill Client', () => {
 
   it('should register LaunchRequest handler', () => {
     const skillConfigurator = Client.configureSkill();
-    expect(skillConfigurator.config.requestHandlers.LaunchRequest).toBeUndefined;
+    expect(skillConfigurator.config.requestHandlers.LaunchRequest).toBeUndefined();
 
     skillConfigurator.onLaunchRequest(mockLaunchHandler);
     expect(skillConfigurator.config.requestHandlers.LaunchRequest).toEqual(mockLaunchHandler);
@@ -57,7 +58,7 @@ describe('Clova Skill Client', () => {
 
   it('should register IntentRequest handler', () => {
     const skillConfigurator = Client.configureSkill();
-    expect(skillConfigurator.config.requestHandlers.IntentRequest).toBeUndefined;
+    expect(skillConfigurator.config.requestHandlers.IntentRequest).toBeUndefined();
 
     skillConfigurator.onIntentRequest(mockIntentHandler);
     expect(skillConfigurator.config.requestHandlers.IntentRequest).toEqual(mockIntentHandler);
@@ -65,7 +66,7 @@ describe('Clova Skill Client', () => {
 
   it('should register SessionEndedRequest handler', () => {
     const skillConfigurator = Client.configureSkill();
-    expect(skillConfigurator.config.requestHandlers.SessionEndedRequest).toBeUndefined;
+    expect(skillConfigurator.config.requestHandlers.SessionEndedRequest).toBeUndefined();
 
     skillConfigurator.onSessionEndedRequest(mockSessionEndedHandler);
     expect(skillConfigurator.config.requestHandlers.SessionEndedRequest).toEqual(mockSessionEndedHandler);
@@ -73,11 +74,12 @@ describe('Clova Skill Client', () => {
 
   it('should not overwrite registered handler', () => {
     const skillConfigurator = Client.configureSkill();
-    expect(skillConfigurator.config.requestHandlers.LaunchRequest).toBeUndefined;
+    expect(skillConfigurator.config.requestHandlers.LaunchRequest).toBeUndefined();
 
     skillConfigurator.on('LaunchRequest', mockLaunchHandler);
     expect(skillConfigurator.config.requestHandlers.LaunchRequest).toEqual(mockLaunchHandler);
 
+    // tslint:disable-next-line:no-empty
     skillConfigurator.on('LaunchRequest', () => {});
     expect(skillConfigurator.config.requestHandlers.LaunchRequest).toEqual(mockLaunchHandler);
   });

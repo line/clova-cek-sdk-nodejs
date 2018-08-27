@@ -1,5 +1,16 @@
 {
-  "extends": [
-    "tslint-config-prettier"
-  ]
+    "defaultSeverity": "error",
+    "extends": [
+      "tslint:recommended",
+      "tslint-config-prettier"
+    ],
+    "jsRules": {},
+    "rules": {
+      "ban-types": false,
+      "interface-name": false,
+      "interface-over-type-literal": false,
+      "no-console": [true, "log"],
+      "no-namespace": [true, "allow-declarations"]
+    },
+    "rulesDirectory": []
 }

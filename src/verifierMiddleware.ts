@@ -1,7 +1,7 @@
-import express from 'express';
 import { raw } from 'body-parser';
-import verifier from './verifier';
+import express from 'express';
 import Clova from './types';
+import verifier from './verifier';
 
 export default function verifierMiddleware(
   config: Clova.MiddlewareOptions,

@@ -1,5 +1,5 @@
-import { Clova } from '../src/index';
 import { Context } from '../src/context';
+import { Clova } from '../src/index';
 import { SpeechBuilder } from '../src/speechBuilder';
 
 /**
@@ -85,19 +85,19 @@ describe('Clova Skill Client Context: LaunchRequest', () => {
     context.setSpeechSet(speechInfoBrief, speechInfoVerbose);
     context.setSpeechSet(speechInfoBrief, speechInfoVerbose, true);
     expect(responseObject.response.outputSpeech).toEqual({
-      type: 'SpeechSet',
       brief: speechInfoBrief,
+      type: 'SpeechSet',
       verbose: speechInfoVerbose,
     });
     expect(responseObject.response.reprompt.outputSpeech).toEqual({
-      type: 'SpeechSet',
       brief: speechInfoBrief,
+      type: 'SpeechSet',
       verbose: speechInfoVerbose,
     });
   });
 
   it('should set reprompt for response object', () => {
-    const speechInfo: Clova.SpeechInfoObject[] = [SpeechBuilder.createSpeechText('こんにちは')];
+    const speechInfo: Clova.SpeechInfoObject = SpeechBuilder.createSpeechText('こんにちは');
     const speechObject: Clova.OutputSpeechSimple = {
       type: 'SimpleSpeech',
       values: speechInfo,
@@ -139,6 +139,14 @@ describe('Clova Skill Client Context: LaunchRequest', () => {
     const intentName = context.getIntentName();
     expect(intentName).toBeNull();
   });
+
+  it('should get user info from launch request', () => {
+    const user = context.getUser();
+    expect(user).toEqual({
+      accessToken: 'XHapQasdfsdfFsdfasdflQQ7',
+      userId: 'V0qe',
+    });
+  });
 });
 
 describe('Clova Skill Client Context: IntentRequest', () => {
@@ -156,8 +164,8 @@ describe('Clova Skill Client Context: IntentRequest', () => {
   it('should get slots from intent request', () => {
     const slots = context.getSlots();
     expect(slots).toEqual({
-      pizzaType: 'pepperoni',
       pizzaNum: 3,
+      pizzaType: 'pepperoni',
     });
   });
 
