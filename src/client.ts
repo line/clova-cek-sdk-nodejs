@@ -85,6 +85,39 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
       }
     };
   }
+
+  /**
+   * Create lambda handler for dispatching request.
+   *
+   * @returns {Function}
+   * @memberOf SkillConfigurator
+   */
+  lambda(): Function {
+    return async (event: any) => {
+      const ctx = new Context(event);
+
+      const requestType = ctx.requestObject.request.type;
+      const requestHandler = this.config.requestHandlers[requestType];
+
+      if (requestHandler) {
+        await requestHandler.call(ctx, ctx);
+        return ctx.responseObject;
+      } else {
+        throw new Error(`Unable to find requestHandler for '${requestType}'`);
+      }
+    };
+  }
+
+  /**
+   * Create firebase handler for dispatching request.
+   * However, the contents are express.
+   *
+   * @returns {Function}
+   * @memberOf SkillConfigurator
+   */
+  firebase(): Function {
+    return this.handle();
+  }
 }
 
 export default class Client {
