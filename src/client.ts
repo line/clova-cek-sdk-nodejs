@@ -1,8 +1,8 @@
-import Clova from './types';
 import { Context } from './context';
+import Clova from './types';
 
 export class SkillConfigurator implements Clova.SkillConfigurator {
-  config: {
+  public config: {
     requestHandlers: {
       [index: string]: Function;
     };
@@ -22,7 +22,7 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    * @returns
    * @memberOf SkillConfigurator
    */
-  on(requestType: string, requestHandler: Function): this {
+  public on(requestType: string, requestHandler: Function): this {
     if (!this.config.requestHandlers[requestType]) {
       this.config.requestHandlers[requestType] = requestHandler;
     }
@@ -34,7 +34,7 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    *
    * @param requestHandler
    */
-  onLaunchRequest(requestHandler: Function): this {
+  public onLaunchRequest(requestHandler: Function): this {
     this.on('LaunchRequest', requestHandler);
     return this;
   }
@@ -44,7 +44,7 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    *
    * @param requestHandler
    */
-  onIntentRequest(requestHandler: Function): this {
+  public onIntentRequest(requestHandler: Function): this {
     this.on('IntentRequest', requestHandler);
     return this;
   }
@@ -54,7 +54,7 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    *
    * @param requestHandler
    */
-  onSessionEndedRequest(requestHandler: Function): this {
+  public onSessionEndedRequest(requestHandler: Function): this {
     this.on('SessionEndedRequest', requestHandler);
     return this;
   }
@@ -65,7 +65,7 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    * @returns {Function}
    * @memberOf SkillConfigurator
    */
-  handle(): Function {
+  public handle(): Function {
     return async (req: any, res: any) => {
       const ctx = new Context(req.body);
 
@@ -92,7 +92,7 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    * @returns {Function}
    * @memberOf SkillConfigurator
    */
-  lambda(): Function {
+  public lambda(): Function {
     return async (event: any) => {
       const ctx = new Context(event);
 
@@ -115,18 +115,19 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    * @returns {Function}
    * @memberOf SkillConfigurator
    */
-  firebase(): Function {
+  public firebase(): Function {
     return this.handle();
   }
 }
 
+// tslint:disable-next-line:max-classes-per-file
 export default class Client {
   /**
    * Create SkillConfigurator for clova skills.
    *
    * @returns SkillConfigurator
    */
-  static configureSkill(): SkillConfigurator {
+  public static configureSkill(): SkillConfigurator {
     return new SkillConfigurator();
   }
 }

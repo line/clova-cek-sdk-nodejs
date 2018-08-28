@@ -98,7 +98,7 @@ declare namespace Clova {
 
   export interface Response {
     card: Card;
-    directives: Array<Directive>;
+    directives: Directive[];
     outputSpeech: OutputSpeech;
     reprompt?: {
       outputSpeech: OutputSpeech;
@@ -129,7 +129,7 @@ declare namespace Clova {
   export type OutputSpeechList = {
     brief?: SpeechInfoObject;
     type: 'SpeechList';
-    values: Array<SpeechInfoObject>;
+    values: SpeechInfoObject[];
     verbose?: OutputSpeechVerbose;
   };
 
@@ -149,7 +149,7 @@ declare namespace Clova {
 
   export type OutputSpeechListVerbose = {
     type: 'SpeechList';
-    values: Array<SpeechInfoObject>;
+    values: SpeechInfoObject[];
   };
 
   export type SpeechInfoObject = SpeechInfoText | SpeechInfoUrl;
@@ -196,9 +196,10 @@ declare namespace Clova {
     getIntentName(): string | null;
     getSlots(): { [key: string]: SlotValue };
     getSlot(slotName: string): SlotValue;
+    getUser(): User;
     setOutputSpeech(outputSpeech: OutputSpeech, reprompt?: boolean): void;
     setSimpleSpeech(speechInfo: SpeechInfoObject, reprompt?: boolean): this;
-    setSpeechList(speechInfo: Array<SpeechInfoObject>, reprompt?: boolean): this;
+    setSpeechList(speechInfo: SpeechInfoObject[], reprompt?: boolean): this;
     setSpeechSet(speechInfoBrief: SpeechInfoObject, speechInfoVerbose: OutputSpeechVerbose, reprompt?: boolean): this;
     getSessionAttributes(): object;
     setSessionAttributes(sessionAttributes: object): void;
