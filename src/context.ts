@@ -89,6 +89,15 @@ export class Context implements Clova.ClientContext {
   }
 
   /**
+   * Get userId from clova request
+   *
+   * @memberOf Context
+   */
+  public getUserId(): string {
+    return this.getUser().userId;
+  }
+
+  /**
    * Set outputSpeech content
    *
    * @param {Clova.OutputSpeech} outputSpeech

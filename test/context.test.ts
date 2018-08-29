@@ -147,6 +147,11 @@ describe('Clova Skill Client Context: LaunchRequest', () => {
       userId: 'V0qe',
     });
   });
+
+  it('should get userId from launch request', () => {
+    const userId = context.getUserId();
+    expect(userId).toBe('V0qe');
+  });
 });
 
 describe('Clova Skill Client Context: IntentRequest', () => {
