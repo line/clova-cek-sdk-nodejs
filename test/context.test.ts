@@ -107,6 +107,28 @@ describe('Clova Skill Client Context: LaunchRequest', () => {
     expect(responseObject.response.reprompt.outputSpeech).toEqual(speechObject);
   });
 
+  it('should set speech reprompt for response object', () => {
+    const speechInfo: Clova.SpeechInfoObject = SpeechBuilder.createSpeechText('こんにちは');
+    const speechObject: Clova.OutputSpeechSimple = {
+      type: 'SimpleSpeech',
+      values: speechInfo,
+    };
+
+    context.setSimpleReprompt(speechInfo);
+    expect(responseObject.response.reprompt.outputSpeech).toEqual(speechObject);
+  });
+
+  it('should set speech list reprompt for response object', () => {
+    const speechInfo: Clova.SpeechInfoObject[] = [SpeechBuilder.createSpeechText('こんにちは')];
+    const speechObject: Clova.OutputSpeechList = {
+      type: 'SpeechList',
+      values: speechInfo,
+    };
+
+    context.setSimpleReprompt(speechInfo);
+    expect(responseObject.response.reprompt.outputSpeech).toEqual(speechObject);
+  });
+
   it('should set shouldEndSession for response object', () => {
     context.endSession();
     expect(responseObject.response.shouldEndSession).toBeTruthy();

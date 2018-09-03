@@ -204,6 +204,7 @@ declare namespace Clova {
     getSessionAttributes(): object;
     setSessionAttributes(sessionAttributes: object): void;
     setReprompt(outputSpeech: OutputSpeech): void;
+    setSimpleReprompt(speechInfo: SpeechInfoObject | SpeechInfoObject[]): void;
   }
 
   export type Middleware = (req: express.Request, res: express.Response, next: express.NextFunction) => void;
