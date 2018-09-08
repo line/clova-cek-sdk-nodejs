@@ -46,10 +46,14 @@ declare namespace Clova {
 
   export type LaunchRequest = {
     type: 'LaunchRequest';
+    requestId: string;
+    timestamp: string;
   };
 
   export type IntentRequest = {
     type: 'IntentRequest';
+    requestId: string;
+    timestamp: string;
     intent: {
       name: string;
       slots: {
@@ -73,6 +77,8 @@ declare namespace Clova {
 
   export type SessionEndedRequest = {
     type: 'SessionEndedRequest';
+    requestId: string;
+    timestamp: string;
   };
 
   export type Session = {
@@ -108,14 +114,7 @@ declare namespace Clova {
 
   export type Card = {};
 
-  export type Directive = {
-    header: {
-      messageId: string;
-      name: string;
-      namespace: string;
-    };
-    payload: object;
-  };
+  export type Directive = audioPlayer.PlayDirective;
 
   export type OutputSpeech = OutputSpeechSimple | OutputSpeechList | OutputSpeechSet | {};
 
@@ -204,11 +203,47 @@ declare namespace Clova {
     getSessionAttributes(): object;
     setSessionAttributes(sessionAttributes: object): void;
     setReprompt(outputSpeech: OutputSpeech): void;
+    addAudioPlayerPlayDirective(
+      playBehavior: Clova.audioPlayer.PlayBehavior,
+      url: string,
+      token: string,
+      beginAtInMilliseconds: number,
+      urlPlayable: boolean,
+      metadata: Clova.audioPlayer.Metadata,
+      source: Clova.audioPlayer.Source
+    ): this;
   }
 
   export type Middleware = (req: express.Request, res: express.Response, next: express.NextFunction) => void;
 
   export namespace audioPlayer {
+    interface Metadata {
+      titleText: string,
+      titleSubText1: string,
+      titleSubText2?: string,
+    }
+
+    interface Source {
+      logoUrl?: string;
+      name: string;
+    }
+
+    type PlayBehavior = 'REPLACE_ALL' | 'ENQUEUE';
+
+    interface PlayDirective {
+      header: {
+        namespace: 'AudioPlayer';
+        name: 'Play';
+        dialogRequestId: string;
+        messageId: string;
+      };
+      payload: {
+        audioItem: AudioItem;
+        source: Source;
+        playBehavior: PlayBehavior;
+      }
+    }
+
     interface PlayFinished {
       namespace: 'AudioPlayer';
       name: 'PlayFinished';
@@ -285,6 +320,30 @@ declare namespace Clova {
       namespace: 'AudioPlayer';
       name: 'StreamRequested';
       payload: any;
+    }
+
+    interface AudioItem {
+      artImageUrl?: string;
+      audioItemId: string;
+      headerText?: string;
+      stream: AudioStreamInfoObject;
+      titleSubText1: string;
+      titleSubText2?: string;
+      titleText: string;
+    }
+
+    interface AudioStreamInfoObject {
+      beginAtInMilliseconds: number;
+      customData?: string;
+      durationInMilliseconds?: number;
+      progressReport?: {
+        progressReportDelayInMilliseconds?: number;
+        progressReportIntervalInMilliseconds?: number;
+        progressReportPositionInMilliseconds?: number;
+      };
+      token: string;
+      url: string;
+      urlPlayable: boolean;
     }
   }
 

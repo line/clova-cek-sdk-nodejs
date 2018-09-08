@@ -151,14 +151,17 @@ describe('Clova Skill Client Context: LaunchRequest', () => {
 
 describe('Clova Skill Client Context: IntentRequest', () => {
   let context: Clova.ClientContext;
+  let responseObject: Clova.ResponseBody;
   const intentRequestJSON: Clova.RequestBody = require('./fixtures/intentRequest.json');
 
   beforeEach(() => {
     context = new Context(intentRequestJSON);
+    responseObject = context.responseObject;
   });
 
   afterEach(() => {
     context = null;
+    responseObject = null;
   });
 
   it('should get slots from intent request', () => {
@@ -193,5 +196,67 @@ describe('Clova Skill Client Context: IntentRequest', () => {
   it('should get sessionAttributes from intent request', () => {
     const sessionAttributes = context.getSessionAttributes();
     expect(sessionAttributes).toEqual({ intent: 'OrderPizza' });
+  });
+
+  it('should add directives {AudioPlayer.PlayDirective} from intent request', () => {
+    const behavior: Clova.audioPlayer.PlayBehavior = 'REPLACE_ALL';
+    const url: string = 'https://audiocontent.mp3';
+    const token: string = 'audioToken';
+    const beginAtInMilliseconds: number = 0;
+    const urlPlayable = true;
+    const metadata: Clova.audioPlayer.Metadata = {
+      titleSubText1: 'subText1',
+      titleSubText2: 'subText2',
+      titleText: 'titleText'
+    };
+    const source: Clova.audioPlayer.Source = {
+      name: 'audioPlayerTest'
+    }
+
+    const expectedDirectives: Clova.Directive[] = [
+      {
+        header: {
+          dialogRequestId: intentRequestJSON.request.requestId,
+          messageId: '',
+          name: 'Play',
+          namespace: 'AudioPlayer'
+        },
+        payload: {
+          audioItem: {
+            audioItemId: '',
+            stream: {
+              beginAtInMilliseconds,
+              token,
+              url,
+              urlPlayable
+            },
+            titleSubText1: metadata.titleSubText1,
+            titleSubText2: metadata.titleSubText2,
+            titleText: metadata.titleText
+          },
+          playBehavior: behavior,
+          source
+        }
+      }
+    ];
+
+    context.addAudioPlayerPlayDirective(
+      behavior,
+      url,
+      token,
+      beginAtInMilliseconds,
+      urlPlayable,
+      metadata,
+      source
+    );
+
+    expect(responseObject.response.directives[0].header.messageId).toBeTruthy();
+    expect(responseObject.response.directives[0].payload.audioItem.audioItemId).toBeTruthy();
+
+    // messageId and audioItemId are excluded. Because random string.
+    responseObject.response.directives[0].header.messageId = '';
+    responseObject.response.directives[0].payload.audioItem.audioItemId = '';
+
+    expect(responseObject.response.directives).toEqual(expectedDirectives);
   });
 });

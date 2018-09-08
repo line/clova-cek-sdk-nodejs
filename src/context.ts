@@ -1,4 +1,5 @@
 import 'core-js/fn/object/values';
+import uuid from 'uuid';
 import Clova from './types';
 
 /**
@@ -183,5 +184,56 @@ export class Context implements Clova.ClientContext {
    */
   public setSessionAttributes(sessionAttributes: object): void {
     this.responseObject.sessionAttributes = sessionAttributes;
+  }
+
+  /**
+   * Add directives {AudioPlayer.PlayDirective} for clova response.
+   *
+   * @param {Clova.audioPlayer.PlayBehavior} playBehavior
+   * @param {string} url
+   * @param {string} token
+   * @param {number} beginAtInMilliseconds
+   * @param {boolean} urlPlayable
+   * @param {Clova.audioPlayer.Metadata} metadata
+   * @param {Clova.audioPlayer.Source} source
+   * @memberOf Context
+   */
+  public addAudioPlayerPlayDirective(
+    playBehavior: Clova.audioPlayer.PlayBehavior,
+    url: string,
+    token: string,
+    beginAtInMilliseconds: number,
+    urlPlayable: boolean,
+    metadata: Clova.audioPlayer.Metadata,
+    source: Clova.audioPlayer.Source
+  ): this {
+    const directive: Clova.audioPlayer.PlayDirective = {
+      header: {
+        dialogRequestId: this.requestObject.request.requestId,
+        messageId: uuid.v4(),
+        name: 'Play',
+        namespace: 'AudioPlayer',
+      },
+      payload: {
+        audioItem: {
+          audioItemId: uuid.v4(),
+          stream: {
+            beginAtInMilliseconds,
+            token,
+            url,
+            urlPlayable
+          },
+          titleSubText1: metadata.titleSubText1,
+          titleSubText2: metadata.titleSubText2,
+          titleText: metadata.titleText
+        },
+        playBehavior,
+        source
+      }
+    };
+
+    this.responseObject.response.directives.push(directive);
+
+    return this;
   }
 }

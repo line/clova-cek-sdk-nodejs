@@ -36,6 +36,8 @@
   },
   "request": {
     "type": "IntentRequest",
+    "requestId": "7acf19f5-8551-4f40-9a71-f46451346ce3",
+    "timestamp": "2018-08-25T12:34:59Z",
     "intent": {
       "name": "OrderPizza",
       "slots": {
