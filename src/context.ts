@@ -120,7 +120,7 @@ export class Context implements Clova.ClientContext {
    * @memberOf Context
    */
   public setSimpleReprompt(speechInfo: Clova.SpeechInfoObject | Clova.SpeechInfoObject[]): void {
-    let outputSpeech : Clova.OutputSpeech;
+    let outputSpeech :  Clova.OutputSpeechSimple | Clova.OutputSpeechList;
     if (Array.isArray(speechInfo)) {
       outputSpeech = {
         type: 'SpeechList',
