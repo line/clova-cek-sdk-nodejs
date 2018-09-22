@@ -19,7 +19,7 @@ export class Context implements Clova.ClientContext {
         outputSpeech: {},
         shouldEndSession: false,
       },
-      sessionAttributes: (req.session && req.session.sessionAttributes) || {},
+      sessionAttributes: req.session && req.session.sessionAttributes || {},
       version: req.version,
     };
   }
