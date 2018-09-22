@@ -1,5 +1,5 @@
-import { Clova } from '../src/index';
 import { Context } from '../src/context';
+import { Clova } from '../src/index';
 import { SpeechBuilder } from '../src/speechBuilder';
 
 /**
@@ -85,21 +85,38 @@ describe('Clova Skill Client Context: LaunchRequest', () => {
     context.setSpeechSet(speechInfoBrief, speechInfoVerbose);
     context.setSpeechSet(speechInfoBrief, speechInfoVerbose, true);
     expect(responseObject.response.outputSpeech).toEqual({
-      type: 'SpeechSet',
       brief: speechInfoBrief,
+      type: 'SpeechSet',
       verbose: speechInfoVerbose,
     });
     expect(responseObject.response.reprompt.outputSpeech).toEqual({
-      type: 'SpeechSet',
       brief: speechInfoBrief,
+      type: 'SpeechSet',
       verbose: speechInfoVerbose,
     });
+  });
+
+  it('should set reprompt for response object', () => {
+    const speechInfo: Clova.SpeechInfoObject = SpeechBuilder.createSpeechText('こんにちは');
+    const speechObject: Clova.OutputSpeechSimple = {
+      type: 'SimpleSpeech',
+      values: speechInfo,
+    };
+
+    context.setReprompt(speechObject);
+    expect(responseObject.response.reprompt.outputSpeech).toEqual(speechObject);
   });
 
   it('should set shouldEndSession for response object', () => {
     context.endSession();
     expect(responseObject.response.shouldEndSession).toBeTruthy();
     expect(responseObject.sessionAttributes).toEqual({});
+  });
+
+  it('should set sessionAttributes for response object', () => {
+    const sessionAttributes = { intent: 'AddInfo' };
+    context.setSessionAttributes(sessionAttributes);
+    expect(responseObject.sessionAttributes).toEqual(sessionAttributes);
   });
 
   it('should not get any slots from launch request', () => {
@@ -122,6 +139,14 @@ describe('Clova Skill Client Context: LaunchRequest', () => {
     const intentName = context.getIntentName();
     expect(intentName).toBeNull();
   });
+
+  it('should get user info from launch request', () => {
+    const user = context.getUser();
+    expect(user).toEqual({
+      accessToken: 'XHapQasdfsdfFsdfasdflQQ7',
+      userId: 'V0qe',
+    });
+  });
 });
 
 describe('Clova Skill Client Context: IntentRequest', () => {
@@ -139,8 +164,8 @@ describe('Clova Skill Client Context: IntentRequest', () => {
   it('should get slots from intent request', () => {
     const slots = context.getSlots();
     expect(slots).toEqual({
-      pizzaType: 'pepperoni',
       pizzaNum: 3,
+      pizzaType: 'pepperoni',
     });
   });
 
@@ -163,5 +188,10 @@ describe('Clova Skill Client Context: IntentRequest', () => {
   it('should get sessionId from intent request', () => {
     const sessionId = context.getSessionId();
     expect(sessionId).toBe('a29cfead-c5ba-474d-8745-6c1a6625f0c5');
+  });
+
+  it('should get sessionAttributes from intent request', () => {
+    const sessionAttributes = context.getSessionAttributes();
+    expect(sessionAttributes).toEqual({ intent: 'OrderPizza' });
   });
 });

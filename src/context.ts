@@ -1,5 +1,5 @@
-import Clova from './types';
 import 'core-js/fn/object/values';
+import Clova from './types';
 
 /**
  * Create Context for clova response.
@@ -7,8 +7,8 @@ import 'core-js/fn/object/values';
  * @class ClientContext
  */
 export class Context implements Clova.ClientContext {
-  requestObject: Clova.RequestBody;
-  responseObject: Clova.ResponseBody;
+  public requestObject: Clova.RequestBody;
+  public responseObject: Clova.ResponseBody;
 
   constructor(req: Clova.RequestBody) {
     this.requestObject = req;
@@ -29,7 +29,7 @@ export class Context implements Clova.ClientContext {
    *
    * @memberOf Context
    */
-  endSession(): void {
+  public endSession(): void {
     this.responseObject.response.shouldEndSession = true;
     this.responseObject.sessionAttributes = {};
   }
@@ -39,7 +39,7 @@ export class Context implements Clova.ClientContext {
    *
    * @memberOf Context
    */
-  getSessionId(): string {
+  public getSessionId(): string {
     return this.requestObject.session.sessionId;
   }
 
@@ -48,7 +48,7 @@ export class Context implements Clova.ClientContext {
    *
    * @memberOf Context
    */
-  getIntentName(): string | null {
+  public getIntentName(): string | null {
     const request = this.requestObject.request as Clova.IntentRequest;
     return request.intent ? request.intent.name : null;
   }
@@ -58,9 +58,11 @@ export class Context implements Clova.ClientContext {
    *
    * @memberOf Context
    */
-  getSlots(): { [key: string]: Clova.SlotValue } {
+  public getSlots(): { [key: string]: Clova.SlotValue } {
     const request = this.requestObject.request as Clova.IntentRequest;
-    if (!request.intent || !request.intent.slots) return {};
+    if (!request.intent || !request.intent.slots) {
+      return {};
+    }
 
     return Object.values(request.intent.slots).reduce((acc, curr) => {
       return Object.assign({}, acc, { [curr.name]: curr.value });
@@ -73,8 +75,17 @@ export class Context implements Clova.ClientContext {
    * @param {string} slotName
    * @memberOf Context
    */
-  getSlot(slotName: string): Clova.SlotValue {
+  public getSlot(slotName: string): Clova.SlotValue {
     return this.getSlots()[slotName] || null;
+  }
+
+  /**
+   * Get {Clova.User} from clova request
+   *
+   * @memberOf Context
+   */
+  public getUser(): Clova.User {
+    return this.requestObject.session.user;
   }
 
   /**
@@ -84,12 +95,22 @@ export class Context implements Clova.ClientContext {
    * @param {boolean} reprompt
    * @memberOf Context
    */
-  setOutputSpeech(outputSpeech: Clova.OutputSpeech, reprompt: boolean = false): void {
+  public setOutputSpeech(outputSpeech: Clova.OutputSpeech, reprompt: boolean = false): void {
     if (reprompt) {
       this.responseObject.response.reprompt = { outputSpeech };
     } else {
       this.responseObject.response.outputSpeech = outputSpeech;
     }
+  }
+
+  /**
+   * Set reprompt content
+   *
+   * @param {Clova.OutputSpeech} outputSpeech
+   * @memberOf Context
+   */
+  public setReprompt(outputSpeech: Clova.OutputSpeech): void {
+    this.responseObject.response.reprompt = { outputSpeech };
   }
 
   /**
@@ -99,7 +120,7 @@ export class Context implements Clova.ClientContext {
    * @param {boolean} reprompt
    * @memberOf Context
    */
-  setSimpleSpeech(speechInfo: Clova.SpeechInfoObject, reprompt: boolean = false): this {
+  public setSimpleSpeech(speechInfo: Clova.SpeechInfoObject, reprompt: boolean = false): this {
     const outputSpeech: Clova.OutputSpeechSimple = {
       type: 'SimpleSpeech',
       values: speechInfo,
@@ -115,7 +136,7 @@ export class Context implements Clova.ClientContext {
    * @param {boolean} reprompt
    * @memberOf Context
    */
-  setSpeechList(speechInfo: Array<Clova.SpeechInfoObject>, reprompt: boolean = false): this {
+  public setSpeechList(speechInfo: Clova.SpeechInfoObject[], reprompt: boolean = false): this {
     const outputSpeech: Clova.OutputSpeechList = {
       type: 'SpeechList',
       values: speechInfo,
@@ -132,17 +153,35 @@ export class Context implements Clova.ClientContext {
    * @param {boolean} reprompt
    * @memberOf Context
    */
-  setSpeechSet(
+  public setSpeechSet(
     speechInfoBrief: Clova.SpeechInfoObject,
     speechInfoVerbose: Clova.OutputSpeechVerbose,
     reprompt: boolean = false,
   ): this {
     const outputSpeech: Clova.OutputSpeechSet = {
-      type: 'SpeechSet',
       brief: speechInfoBrief,
+      type: 'SpeechSet',
       verbose: speechInfoVerbose,
     };
     this.setOutputSpeech(outputSpeech, reprompt);
     return this;
+  }
+
+  /**
+   * Get sessionAttributes from clova request.
+   *
+   * @memberOf Context
+   */
+  public getSessionAttributes(): object {
+    return this.requestObject.session.sessionAttributes;
+  }
+
+  /**
+   * Set sessionAttributes for clova response.
+   *
+   * @memberOf Context
+   */
+  public setSessionAttributes(sessionAttributes: object): void {
+    this.responseObject.sessionAttributes = sessionAttributes;
   }
 }
