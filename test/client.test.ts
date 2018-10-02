@@ -12,9 +12,11 @@ describe('Clova Skill Client', () => {
   let app = null;
   let mockLaunchHandler = null;
   let mockIntentHandler = null;
+  let mockEventHandler = null;
   let mockSessionEndedHandler = null;
   const launchRequestJSON = require('./fixtures/launchRequest.json');
   const intentRequestJSON = require('./fixtures/intentRequest.json');
+  const eventRequestAudioPlayerJSON = require('./fixtures/eventRequestAudioPlayer.json');
   const skeletonResponseJSON = require('./fixtures/skeletonResponse.json');
 
   const launchSpeechInfo = SpeechBuilder.createSpeechText('こんにちは');
@@ -31,6 +33,7 @@ describe('Clova Skill Client', () => {
       });
     });
     mockIntentHandler = jest.fn();
+    mockEventHandler = jest.fn();
     mockSessionEndedHandler = jest.fn();
     // tslint:disable-next-line:no-empty
     jest.spyOn(global.console, 'error').mockImplementation(() => {});
@@ -62,6 +65,14 @@ describe('Clova Skill Client', () => {
 
     skillConfigurator.onIntentRequest(mockIntentHandler);
     expect(skillConfigurator.config.requestHandlers.IntentRequest).toEqual(mockIntentHandler);
+  });
+
+  it('should register EventRequest handler', () => {
+    const skillConfigurator = Client.configureSkill();
+    expect(skillConfigurator.config.requestHandlers.EventRequest).toBeUndefined();
+
+    skillConfigurator.onEventRequest(mockEventHandler);
+    expect(skillConfigurator.config.requestHandlers.EventRequest).toEqual(mockEventHandler);
   });
 
   it('should register SessionEndedRequest handler', () => {
@@ -106,6 +117,23 @@ describe('Clova Skill Client', () => {
       });
   });
 
+  it('should be able to invoke the EventRequest handler', done => {
+    const skillRequestHandler = Client.configureSkill()
+      .on('EventRequest', mockEventHandler)
+      .handle();
+    app.post('/clova', skillRequestHandler);
+
+    request(app)
+      .post('/clova')
+      .send(eventRequestAudioPlayerJSON)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then(response => {
+        expect(mockEventHandler).toBeCalled();
+        done();
+      });
+  });
+
   it('should return skeleton response on empty handler', done => {
     const mockEmptyHandler = jest.fn();
     const mockEmptyContext = new Context(launchRequestJSON);
@@ -139,6 +167,23 @@ describe('Clova Skill Client', () => {
       .then(response => {
         expect(mockLaunchHandler).not.toBeCalled();
         expect(console.error).toBeCalledWith(`Unable to find requestHandler for 'IntentRequest'`);
+        done();
+      });
+  });
+
+  it('should return error on unregistered request', done => {
+    const skillRequestHandler = Client.configureSkill()
+      .on('LaunchRequest', mockLaunchHandler)
+      .handle();
+    app.post('/clova', skillRequestHandler);
+
+    request(app)
+      .post('/clova')
+      .send(eventRequestAudioPlayerJSON)
+      .expect(500)
+      .then(response => {
+        expect(mockEventHandler).not.toBeCalled();
+        expect(console.error).toBeCalledWith(`Unable to find requestHandler for 'EventRequest'`);
         done();
       });
   });

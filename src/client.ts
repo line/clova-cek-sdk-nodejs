@@ -50,6 +50,16 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
   }
 
   /**
+   * Add EventRequest handler for clova request.
+   *
+   * @param requestHandler
+   */
+  public onEventRequest(requestHandler: Function): this {
+    this.on('EventRequest', requestHandler);
+    return this;
+  }
+
+  /**
    * Add SessionEndedRequest handler for clova request.
    *
    * @param requestHandler

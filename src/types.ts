@@ -180,6 +180,7 @@ declare namespace Clova {
     on(requestType: string, requestHandler: Function): SkillConfigurator;
     onLaunchRequest(requestHandler: Function): SkillConfigurator;
     onIntentRequest(requestHandler: Function): SkillConfigurator;
+    onEventRequest(requestHandler: Function): SkillConfigurator;
     onSessionEndedRequest(requestHandler: Function): SkillConfigurator;
     handle(): Function;
   }

@@ -1,0 +1,71 @@
+{
+  "version": "0.1.0",
+  "session": {
+    "new": false,
+    "sessionAttributes": {
+      "intent": "OrderPizza"
+    },
+    "sessionId": "a29cfead-c5ba-474d-8745-6c1a6625f0c5",
+    "user": {
+      "userId": "V0qe",
+      "accessToken": "XHapQasdfsdfFsdfasdflQQ7"
+    }
+  },
+  "context": {
+    "AudioPlayer": {
+      "offsetInMilliseconds": 10008,
+      "playerActivity": "PLAYING",
+      "repeatMode": "NONE",
+      "stream": {
+        "beginAtInMilliseconds": 0,
+        "durationInMilliseconds": 0,
+        "token": "Uc8032bd48fae9c4f408b7fc3b0680390",
+        "url": "https://yourdomain/sample.mp3",
+        "urlPlayable": true
+      },
+      "token": "Uc8032bd48fae9c4f408b7fc3b0680390",
+      "totalInMilliseconds": 110043
+    },
+    "System": {
+      "application": {
+        "applicationId": "com.yourdomain.extension.pizzabot"
+      },
+      "user": {
+        "userId": "V0qe",
+        "accessToken": "XHapQasdfsdfFsdfasdflQQ7"
+      },
+      "device": {
+        "deviceId": "096e6b27-1717-33e9-b0a7-510a48658a9b",
+        "display": {
+          "size": "l100",
+          "orientation": "landscape",
+          "dpi": 96,
+          "contentLayer": {
+            "width": 640,
+            "height": 360
+          }
+        }
+      }
+    }
+  },
+  "request": {
+    "type": "EventRequest",
+    "requestId": "5af70712-84e4-42c5-b413-b5b6c4ade274",
+    "timestamp": "2018-09-08T00:00:00Z",
+    "locale": "ja-JP",
+    "extensionId": "com.yourdomain.extension.pizzabot",
+    "intent": {
+      "intent": "",
+      "name": "",
+      "slots": null
+    },
+    "event": {
+      "namespace": "AudioPlayer",
+      "name": "PlayStarted",
+      "payload": {
+        "offsetInMilliseconds": 0,
+        "token": "Uc8032bd48fae9c4f408b7fc3b0680390"
+      }
+    }
+  }
+}
