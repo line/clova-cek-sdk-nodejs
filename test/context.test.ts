@@ -250,12 +250,19 @@ describe('Clova Skill Client Context: IntentRequest', () => {
       source
     );
 
-    expect(responseObject.response.directives[0].header.messageId).toBeTruthy();
-    expect(responseObject.response.directives[0].payload.audioItem.audioItemId).toBeTruthy();
+    expect(
+      responseObject.response.directives[0].header.namespace === 'AudioPlayer' &&
+      responseObject.response.directives[0].header.name === 'Play'
+    ).toBeTruthy();
+
+    const directive = (responseObject.response.directives[0] as Clova.audioPlayer.PlayDirective);
+
+    expect(directive.header.messageId).not.toBeUndefined();
+    expect(directive.payload.audioItem.audioItemId).not.toBeUndefined();
 
     // messageId and audioItemId are excluded. Because random string.
-    responseObject.response.directives[0].header.messageId = '';
-    responseObject.response.directives[0].payload.audioItem.audioItemId = '';
+    directive.header.messageId = '';
+    directive.payload.audioItem.audioItemId = '';
 
     expect(responseObject.response.directives).toEqual(expectedDirectives);
   });

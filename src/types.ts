@@ -114,7 +114,7 @@ declare namespace Clova {
 
   export type Card = {};
 
-  export type Directive = audioPlayer.PlayDirective;
+  export type Directive = audioPlayer.PlayDirective | audioPlayer.StreamDeliverDirective | playbackController.PauseDirective | playbackController.ResumeDirective | playbackController.StopDirective;
 
   export type OutputSpeech = OutputSpeechSimple | OutputSpeechList | OutputSpeechSet | {};
 
@@ -244,6 +244,18 @@ declare namespace Clova {
       }
     }
 
+    interface StreamDeliverDirective {
+      header: {
+        namespace: 'AudioPlayer';
+        name: 'StreamDeliver';
+        dialogRequestId: string;
+        messageId: string;
+      };
+      payload: {
+        audioStream: AudioStreamInfoObject;
+      }
+    }
+
     interface PlayFinished {
       namespace: 'AudioPlayer';
       name: 'PlayFinished';
@@ -344,6 +356,38 @@ declare namespace Clova {
       token: string;
       url: string;
       urlPlayable: boolean;
+    }
+  }
+
+  export namespace playbackController {
+    interface PauseDirective {
+      header: {
+        namespace: 'PlaybackController';
+        name: 'Pause';
+        dialogRequestId: string;
+        messageId: string;
+      };
+      payload: {}
+    }
+
+    interface ResumeDirective {
+      header: {
+        namespace: 'PlaybackController';
+        name: 'Resume';
+        dialogRequestId: string;
+        messageId: string;
+      };
+      payload: {}
+    }
+
+    interface StopDirective {
+      header: {
+        namespace: 'PlaybackController';
+        name: 'Stop';
+        dialogRequestId: string;
+        messageId: string;
+      };
+      payload: {}
     }
   }
 
