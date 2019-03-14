@@ -1,6 +1,3 @@
-import bodyParser from 'body-parser';
-import express from 'express';
-import request from 'supertest';
 import { Context } from '../src/context';
 import { Client } from '../src/index';
 import { SpeechBuilder } from '../src/speechBuilder';
@@ -9,11 +6,14 @@ import { SpeechBuilder } from '../src/speechBuilder';
  * Clova Skill Client test
  */
 describe('Clova Skill Client', () => {
-  let app = null;
-  let mockLaunchHandler = null;
-  let mockIntentHandler = null;
-  let mockEventHandler = null;
-  let mockSessionEndedHandler = null;
+  let app: any = null;
+  let mockLaunchHandler: any = null;
+  let mockIntentHandler: any = null;
+  let mockEventHandler: any = null;
+  let mockSessionEndedHandler: any = null;
+  const express = require('express');
+  const bodyParser = require('body-parser');
+  const request = require('supertest');
   const launchRequestJSON = require('./fixtures/launchRequest.json');
   const intentRequestJSON = require('./fixtures/intentRequest.json');
   const eventRequestAudioPlayerJSON = require('./fixtures/eventRequestAudioPlayer.json');
@@ -22,7 +22,7 @@ describe('Clova Skill Client', () => {
   const launchSpeechInfo = SpeechBuilder.createSpeechText('こんにちは');
 
   beforeEach(() => {
-    app = express();
+    app = new express();
     app.use(bodyParser.json());
     mockLaunchHandler = jest.fn(ctx => {
       return new Promise((resolve, reject) => {
@@ -106,7 +106,7 @@ describe('Clova Skill Client', () => {
       .send(launchRequestJSON)
       .expect('Content-Type', /json/)
       .expect(200)
-      .then(response => {
+      .then((response: any) => {
         const { outputSpeech } = response.body.response;
         expect(mockLaunchHandler).toBeCalled();
         expect(outputSpeech).toEqual({
@@ -128,7 +128,7 @@ describe('Clova Skill Client', () => {
       .send(eventRequestAudioPlayerJSON)
       .expect('Content-Type', /json/)
       .expect(200)
-      .then(response => {
+      .then(() => {
         expect(mockEventHandler).toBeCalled();
         done();
       });
@@ -147,7 +147,7 @@ describe('Clova Skill Client', () => {
       .send(launchRequestJSON)
       .expect('Content-Type', /json/)
       .expect(200)
-      .then(response => {
+      .then(() => {
         expect(mockEmptyHandler).toBeCalled();
         expect(mockEmptyHandler).toBeCalledWith(mockEmptyContext);
         done();
@@ -164,7 +164,7 @@ describe('Clova Skill Client', () => {
       .post('/clova')
       .send(intentRequestJSON)
       .expect(500)
-      .then(response => {
+      .then(() => {
         expect(mockLaunchHandler).not.toBeCalled();
         expect(console.error).toBeCalledWith(`Unable to find requestHandler for 'IntentRequest'`);
         done();
@@ -181,7 +181,7 @@ describe('Clova Skill Client', () => {
       .post('/clova')
       .send(eventRequestAudioPlayerJSON)
       .expect(500)
-      .then(response => {
+      .then(() => {
         expect(mockEventHandler).not.toBeCalled();
         expect(console.error).toBeCalledWith(`Unable to find requestHandler for 'EventRequest'`);
         done();
@@ -199,7 +199,7 @@ describe('Clova Skill Client', () => {
       .send(launchRequestJSON)
       .expect('Content-Type', /json/)
       .expect(200)
-      .then(response => {
+      .then((response: any) => {
         const { outputSpeech } = response.body.response;
         expect(mockLaunchHandler).toBeCalled();
         expect(outputSpeech).toEqual({
@@ -223,7 +223,7 @@ describe('Clova Skill Client', () => {
       .send(launchRequestJSON)
       .expect('Content-Type', /json/)
       .expect(200)
-      .then(response => {
+      .then(() => {
         expect(mockEmptyHandler).toBeCalled();
         expect(mockEmptyHandler).toBeCalledWith(mockEmptyContext);
         done();
@@ -240,7 +240,7 @@ describe('Clova Skill Client', () => {
       .post('/clova')
       .send(intentRequestJSON)
       .expect(500)
-      .then(response => {
+      .then(() => {
         expect(mockLaunchHandler).not.toBeCalled();
         expect(console.error).toBeCalledWith(`Unable to find requestHandler for 'IntentRequest'`);
         done();
@@ -280,7 +280,7 @@ describe('Clova Skill Client', () => {
       .on('LaunchRequest', mockLaunchHandler)
       .lambda();
 
-    await skillRequestHandler(intentRequestJSON).catch(e => {
+    await skillRequestHandler(intentRequestJSON).catch((e: any) => {
       expect(mockLaunchHandler).not.toBeCalled();
       expect(e.message).toEqual(`Unable to find requestHandler for 'IntentRequest'`);
       done();
