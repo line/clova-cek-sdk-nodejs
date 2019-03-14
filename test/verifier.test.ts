@@ -14,17 +14,14 @@ describe('', () => {
   });
 
   it('should throw missing signature error', async () => {
-    expect(verifier(null, validApplicationId, requestBody)).rejects.toEqual(new Error('Missing signature.'));
     expect(verifier('', validApplicationId, requestBody)).rejects.toEqual(new Error('Missing signature.'));
   });
 
   it('should throw missing application id error', async () => {
-    expect(verifier(validSignature, null, requestBody)).rejects.toEqual(new Error(`Missing applicationId.`));
     expect(verifier(validSignature, '', requestBody)).rejects.toEqual(new Error(`Missing applicationId.`));
   });
 
   it('should throw missing requestBody error', async () => {
-    expect(verifier(validSignature, validApplicationId, null)).rejects.toEqual(new Error('Missing requestBody.'));
     expect(verifier(validSignature, validApplicationId, '')).rejects.toEqual(new Error('Missing requestBody.'));
   });
 

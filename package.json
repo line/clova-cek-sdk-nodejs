@@ -62,11 +62,12 @@
   },
   "devDependencies": {
     "@types/jest": "^22.0.0",
+    "@types/yargs": "^11.1.2",
     "@types/supertest": "^2.0.4",
     "coveralls": "^3.0.0",
     "express": "^4.16.3",
     "husky": "^0.14.0",
-    "jest": "^22.0.2",
+    "jest": "^24.5.0",
     "lint-staged": "^7.0.0",
     "prettier": "^1.4.4",
     "prompt": "^1.0.0",
@@ -79,12 +80,12 @@
     "rollup-plugin-uglify": "^4.0.0",
     "shelljs": "^0.8.1",
     "supertest": "^3.0.0",
-    "ts-jest": "^22.0.0",
+    "ts-jest": "^24.0.0",
     "ts-node": "^5.0.1",
     "tslib": "^1.9.0",
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.1.0",
-    "typedoc": "^0.11.0",
+    "typedoc": "^0.14.2",
     "typescript": "^2.6.2"
   },
   "dependencies": {
