@@ -181,7 +181,7 @@ declare namespace Clova {
   export type SlotValue = string | number | null;
   export type SpeechLang = 'ja' | 'ko' | 'en';
   export type OutputSpeechType = 'SimpleSpeech' | 'SpeechList' | 'SpeechSet';
-  export type SlotValueType = 'DATE' | 'DATE.INTERVAL' | 'TIME' | 'TIME.INTERVAL';
+  export type SlotValueType = 'DATETIME' | 'DATETIME.INTERVAL' | 'DATE' | 'DATE.INTERVAL' | 'TIME' | 'TIME.INTERVAL';
   export type SlotUnit = string | null;
 
   export interface SkillConfigurator {
