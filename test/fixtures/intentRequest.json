@@ -46,6 +46,16 @@
         "pizzaNum": {
           "name": "pizzaNum",
           "value": 3
+        },
+        "when": {
+          "name": "when",
+          "value": "19:00:00/19:30:00",
+          "valueType": "TIME.INTERVAL"
+        },
+        "degree": {
+          "name": "degree",
+          "value": "67",
+          "unit": "°C"
         }
       }
     }

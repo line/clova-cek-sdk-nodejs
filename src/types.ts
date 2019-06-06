@@ -57,6 +57,7 @@ declare namespace Clova {
           name: string;
           value: SlotValue;
           valueType?: SlotValueType;
+          unit?: SlotUnit;
         };
       };
     };
@@ -68,8 +69,19 @@ declare namespace Clova {
     timestamp: string;
     locale: string;
     extensionId: string;
-    event: clovaSkill.SkillEnabled | clovaSkill.SkillDisabled | audioPlayer.PlayFinished | audioPlayer.PlayPaused | audioPlayer.PlayResumed | audioPlayer.PlayStarted | audioPlayer.PlayStopped | audioPlayer.ProgressReportDelayPassed | audioPlayer.ProgressReportIntervalPassed | audioPlayer.ProgressReportPositionPassed | audioPlayer.StreamRequested;
-  }
+    event:
+      | clovaSkill.SkillEnabled
+      | clovaSkill.SkillDisabled
+      | audioPlayer.PlayFinished
+      | audioPlayer.PlayPaused
+      | audioPlayer.PlayResumed
+      | audioPlayer.PlayStarted
+      | audioPlayer.PlayStopped
+      | audioPlayer.ProgressReportDelayPassed
+      | audioPlayer.ProgressReportIntervalPassed
+      | audioPlayer.ProgressReportPositionPassed
+      | audioPlayer.StreamRequested;
+  };
 
   export type SessionEndedRequest = {
     type: 'SessionEndedRequest';
@@ -169,7 +181,8 @@ declare namespace Clova {
   export type SlotValue = string | number | null;
   export type SpeechLang = 'ja' | 'ko' | 'en';
   export type OutputSpeechType = 'SimpleSpeech' | 'SpeechList' | 'SpeechSet';
-  export type SlotValueType = 'DATE' | 'DATE.INTERVAL' | 'TIME' | 'TIME.INTERVAL';
+  export type SlotValueType = 'DATETIME' | 'DATETIME.INTERVAL' | 'DATE' | 'DATE.INTERVAL' | 'TIME' | 'TIME.INTERVAL';
+  export type SlotUnit = string | null;
 
   export interface SkillConfigurator {
     config: {
@@ -196,7 +209,11 @@ declare namespace Clova {
     getSessionId(): string;
     getIntentName(): string | null;
     getSlots(): { [key: string]: SlotValue };
+    getSlotValueTypes(): { [key: string]: SlotValueType };
+    getSlotUnits(): { [key: string]: SlotUnit };
     getSlot(slotName: string): SlotValue;
+    getSlotValueType(slotName: string): SlotValueType;
+    getSlotUnit(slotName: string): SlotUnit;
     getUser(): User;
     setOutputSpeech(outputSpeech: OutputSpeech, reprompt?: boolean): void;
     setSimpleSpeech(speechInfo: SpeechInfoObject, reprompt?: boolean): this;
@@ -216,7 +233,7 @@ declare namespace Clova {
       payload: {
         offsetInMilliseconds: number;
         token: string;
-      }
+      };
     }
 
     interface PlayPaused {
@@ -225,7 +242,7 @@ declare namespace Clova {
       payload: {
         offsetInMilliseconds: number;
         token: string;
-      }
+      };
     }
 
     interface PlayResumed {
@@ -234,7 +251,7 @@ declare namespace Clova {
       payload: {
         offsetInMilliseconds: number;
         token: string;
-      }
+      };
     }
 
     interface PlayStarted {
@@ -243,7 +260,7 @@ declare namespace Clova {
       payload: {
         offsetInMilliseconds: number;
         token: string;
-      }
+      };
     }
 
     interface PlayStopped {
@@ -252,7 +269,7 @@ declare namespace Clova {
       payload: {
         offsetInMilliseconds: number;
         token: string;
-      }
+      };
     }
 
     interface ProgressReportDelayPassed {
@@ -261,7 +278,7 @@ declare namespace Clova {
       payload: {
         offsetInMilliseconds: number;
         token: string;
-      }
+      };
     }
 
     interface ProgressReportIntervalPassed {
@@ -270,7 +287,7 @@ declare namespace Clova {
       payload: {
         offsetInMilliseconds: number;
         token: string;
-      }
+      };
     }
 
     interface ProgressReportPositionPassed {
@@ -279,7 +296,7 @@ declare namespace Clova {
       payload: {
         offsetInMilliseconds: number;
         token: string;
-      }
+      };
     }
 
     interface StreamRequested {
