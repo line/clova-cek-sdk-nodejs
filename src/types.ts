@@ -195,7 +195,7 @@ declare namespace Clova {
     onIntentRequest(requestHandler: Function): SkillConfigurator;
     onEventRequest(requestHandler: Function): SkillConfigurator;
     onSessionEndedRequest(requestHandler: Function): SkillConfigurator;
-    handle(): Function;
+    handle(): express.RequestHandler;
   }
 
   export interface MiddlewareOptions {
