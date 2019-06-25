@@ -1,10 +1,10 @@
 import { Context } from './context';
 import Clova from './types';
 
-export class SkillConfigurator implements Clova.SkillConfigurator {
+export class SkillConfigurator implements Clova.SkillConfigurator<Context> {
   public config: {
     requestHandlers: {
-      [index: string]: Function;
+      [index: string]: (ctx: Context) => void;
     };
   };
 
@@ -18,11 +18,10 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    * Add a request handler for a given request type.
    *
    * @param {String} requestType
-   * @param {Function} requestHandler
+   * @param {(ctx:Context) => void} requestHandler
    * @returns
-   * @memberOf SkillConfigurator
    */
-  public on(requestType: string, requestHandler: Function): this {
+  public on(requestType: string, requestHandler: (ctx: Context) => void): this {
     if (!this.config.requestHandlers[requestType]) {
       this.config.requestHandlers[requestType] = requestHandler;
     }
@@ -34,7 +33,7 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    *
    * @param requestHandler
    */
-  public onLaunchRequest(requestHandler: Function): this {
+  public onLaunchRequest(requestHandler: (ctx: Context) => void): this {
     this.on('LaunchRequest', requestHandler);
     return this;
   }
@@ -44,7 +43,7 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    *
    * @param requestHandler
    */
-  public onIntentRequest(requestHandler: Function): this {
+  public onIntentRequest(requestHandler: (ctx: Context) => void): this {
     this.on('IntentRequest', requestHandler);
     return this;
   }
@@ -54,7 +53,7 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    *
    * @param requestHandler
    */
-  public onEventRequest(requestHandler: Function): this {
+  public onEventRequest(requestHandler: (ctx: Context) => void): this {
     this.on('EventRequest', requestHandler);
     return this;
   }
@@ -64,7 +63,7 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    *
    * @param requestHandler
    */
-  public onSessionEndedRequest(requestHandler: Function): this {
+  public onSessionEndedRequest(requestHandler: (ctx: Context) => void): this {
     this.on('SessionEndedRequest', requestHandler);
     return this;
   }
@@ -72,10 +71,10 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
   /**
    * Create esxpress route handler for dispatching request.
    *
-   * @returns {Function}
+   * @returns {(req: any, res: any) => void}
    * @memberOf SkillConfigurator
    */
-  public handle(): Function {
+  public handle(): (req: any, res: any) => void {
     return async (req: any, res: any) => {
       const ctx = new Context(req.body);
 
@@ -99,10 +98,10 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
   /**
    * Create lambda handler for dispatching request.
    *
-   * @returns {Function}
+   * @returns
    * @memberOf SkillConfigurator
    */
-  public lambda(): Function {
+  public lambda() {
     return async (event: any) => {
       const ctx = new Context(event);
 
@@ -122,10 +121,10 @@ export class SkillConfigurator implements Clova.SkillConfigurator {
    * Create firebase handler for dispatching request.
    * However, the contents are express.
    *
-   * @returns {Function}
+   * @returns
    * @memberOf SkillConfigurator
    */
-  public firebase(): Function {
+  public firebase() {
     return this.handle();
   }
 }
