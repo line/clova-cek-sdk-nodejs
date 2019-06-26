@@ -17,11 +17,11 @@ export class SkillConfigurator implements Clova.SkillConfigurator<Context> {
   /**
    * Add a request handler for a given request type.
    *
-   * @param {String} requestType
+   * @param {Clova.RequestHandlerType} requestType
    * @param {(ctx:Context) => void} requestHandler
    * @returns
    */
-  public on(requestType: string, requestHandler: (ctx: Context) => void): this {
+  public on(requestType: Clova.RequestHandlerType, requestHandler: (ctx: Context) => void): this {
     if (!this.config.requestHandlers[requestType]) {
       this.config.requestHandlers[requestType] = requestHandler;
     }

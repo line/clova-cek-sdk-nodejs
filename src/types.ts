@@ -183,6 +183,7 @@ declare namespace Clova {
   export type OutputSpeechType = 'SimpleSpeech' | 'SpeechList' | 'SpeechSet';
   export type SlotValueType = 'DATETIME' | 'DATETIME.INTERVAL' | 'DATE' | 'DATE.INTERVAL' | 'TIME' | 'TIME.INTERVAL';
   export type SlotUnit = string | null;
+  export type RequestHandlerType = 'LaunchRequest' | 'IntentRequest' | 'EventRequest' | 'SessionEndedRequest';
 
   export interface SkillConfigurator<T> {
     config: {
@@ -190,7 +191,7 @@ declare namespace Clova {
         [index: string]: (ctx: T) => void;
       };
     };
-    on(requestType: string, requestHandler: (ctx: T) => void): SkillConfigurator<T>;
+    on(requestType: RequestHandlerType, requestHandler: (ctx: T) => void): SkillConfigurator<T>;
     onLaunchRequest(requestHandler: (ctx: T) => void): SkillConfigurator<T>;
     onIntentRequest(requestHandler: (ctx: T) => void): SkillConfigurator<T>;
     onEventRequest(requestHandler: (ctx: T) => void): SkillConfigurator<T>;
