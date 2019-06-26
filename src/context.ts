@@ -83,7 +83,7 @@ export class Context implements Clova.ClientContext {
     return Object.values(request.intent.slots)
       .filter(curr => curr.valueType)
       .reduce((acc, curr) => {
-        return Object.assign({}, acc, { [curr.name]: curr.valueType });
+        return { ...acc, [curr.name]: curr.valueType };
       }, {});
   }
 
@@ -101,7 +101,7 @@ export class Context implements Clova.ClientContext {
     return Object.values(request.intent.slots)
       .filter(curr => curr.unit)
       .reduce((acc, curr) => {
-        return Object.assign({}, acc, { [curr.name]: curr.unit });
+        return { ...acc, [curr.name]: curr.unit };
       }, {});
   }
 
