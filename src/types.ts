@@ -57,6 +57,7 @@ declare namespace Clova {
           name: string;
           value: SlotValue;
           valueType?: SlotValueType;
+          unit?: SlotUnit;
         };
       };
     };
@@ -180,7 +181,8 @@ declare namespace Clova {
   export type SlotValue = string | number | null;
   export type SpeechLang = 'ja' | 'ko' | 'en';
   export type OutputSpeechType = 'SimpleSpeech' | 'SpeechList' | 'SpeechSet';
-  export type SlotValueType = 'DATE' | 'DATE.INTERVAL' | 'TIME' | 'TIME.INTERVAL';
+  export type SlotValueType = 'DATETIME' | 'DATETIME.INTERVAL' | 'DATE' | 'DATE.INTERVAL' | 'TIME' | 'TIME.INTERVAL';
+  export type SlotUnit = string | null;
 
   export interface SkillConfigurator<T> {
     config: {
@@ -207,7 +209,11 @@ declare namespace Clova {
     getSessionId(): string;
     getIntentName(): string | null;
     getSlots(): { [key: string]: SlotValue };
+    getSlotValueTypes(): { [key: string]: SlotValueType };
+    getSlotUnits(): { [key: string]: SlotUnit };
     getSlot(slotName: string): SlotValue;
+    getSlotValueType(slotName: string): SlotValueType;
+    getSlotUnit(slotName: string): SlotUnit;
     getUser(): User;
     setOutputSpeech(outputSpeech: OutputSpeech, reprompt?: boolean): void;
     setSimpleSpeech(speechInfo: SpeechInfoObject, reprompt?: boolean): this;

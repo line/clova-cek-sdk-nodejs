@@ -172,8 +172,24 @@ describe('Clova Skill Client Context: IntentRequest', () => {
   it('should get slots from intent request', () => {
     const slots = context.getSlots();
     expect(slots).toEqual({
+      degree: '67',
       pizzaNum: 3,
       pizzaType: 'pepperoni',
+      when: '19:00:00/19:30:00',
+    });
+  });
+
+  it('should get slot valueTypes from intent request', () => {
+    const slots = context.getSlotValueTypes();
+    expect(slots).toEqual({
+      when: 'TIME.INTERVAL',
+    });
+  });
+
+  it('should get slot units from intent request', () => {
+    const slots = context.getSlotUnits();
+    expect(slots).toEqual({
+      degree: '°C',
     });
   });
 
@@ -184,7 +200,35 @@ describe('Clova Skill Client Context: IntentRequest', () => {
     const pizzaNumSlot = context.getSlot('pizzaNum');
     expect(pizzaNumSlot).toBe(3);
 
+    const whenSlot = context.getSlot('when');
+    expect(whenSlot).toBe('19:00:00/19:30:00');
+
+    const degreeSlot = context.getSlot('degree');
+    expect(degreeSlot).toBe('67');
+
     const nonExistSlot = context.getSlot('non-exist');
+    expect(nonExistSlot).toBeNull();
+  });
+
+  it('should get specific slot valueType from intent request', () => {
+    const whenValueType = context.getSlotValueType('when');
+    expect(whenValueType).toBe('TIME.INTERVAL');
+
+    const pizzaNumSlot = context.getSlotValueType('pizzaNum');
+    expect(pizzaNumSlot).toBeNull();
+
+    const nonExistSlot = context.getSlotValueType('non-exist');
+    expect(nonExistSlot).toBeNull();
+  });
+
+  it('should get specific slot unit from intent request', () => {
+    const whenValueType = context.getSlotUnit('degree');
+    expect(whenValueType).toBe('°C');
+
+    const pizzaNumSlot = context.getSlotUnit('pizzaNum');
+    expect(pizzaNumSlot).toBeNull();
+
+    const nonExistSlot = context.getSlotUnit('non-exist');
     expect(nonExistSlot).toBeNull();
   });
 

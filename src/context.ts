@@ -70,6 +70,42 @@ export class Context implements Clova.ClientContext {
   }
 
   /**
+   * Get slots key-valueType pair from clova IntentRequest.
+   *
+   * @memberOf Context
+   */
+  public getSlotValueTypes(): { [key: string]: Clova.SlotValueType } {
+    const request = this.requestObject.request as Clova.IntentRequest;
+    if (!request.intent || !request.intent.slots) {
+      return {};
+    }
+
+    return Object.values(request.intent.slots)
+      .filter(curr => curr.valueType)
+      .reduce((acc, curr) => {
+        return Object.assign({}, acc, { [curr.name]: curr.valueType });
+      }, {});
+  }
+
+  /**
+   * Get slots key-unit pair from clova IntentRequest.
+   *
+   * @memberOf Context
+   */
+  public getSlotUnits(): { [key: string]: Clova.SlotUnit } {
+    const request = this.requestObject.request as Clova.IntentRequest;
+    if (!request.intent || !request.intent.slots) {
+      return {};
+    }
+
+    return Object.values(request.intent.slots)
+      .filter(curr => curr.unit)
+      .reduce((acc, curr) => {
+        return Object.assign({}, acc, { [curr.name]: curr.unit });
+      }, {});
+  }
+
+  /**
    * Get slot value for particular slot name from clova IntentRequest.
    *
    * @param {string} slotName
@@ -77,6 +113,26 @@ export class Context implements Clova.ClientContext {
    */
   public getSlot(slotName: string): Clova.SlotValue {
     return this.getSlots()[slotName] || null;
+  }
+
+  /**
+   * Get slot valueType for particular slot name from clova IntentRequest.
+   *
+   * @param {string} slotName
+   * @memberOf Context
+   */
+  public getSlotValueType(slotName: string): Clova.SlotValueType {
+    return this.getSlotValueTypes()[slotName] || null;
+  }
+
+  /**
+   * Get slot unit for particular slot name from clova IntentRequest.
+   *
+   * @param {string} slotName
+   * @memberOf Context
+   */
+  public getSlotUnit(slotName: string): Clova.SlotUnit {
+    return this.getSlotUnits()[slotName] || null;
   }
 
   /**
