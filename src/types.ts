@@ -184,18 +184,18 @@ declare namespace Clova {
   export type SlotValueType = 'DATETIME' | 'DATETIME.INTERVAL' | 'DATE' | 'DATE.INTERVAL' | 'TIME' | 'TIME.INTERVAL';
   export type SlotUnit = string | null;
 
-  export interface SkillConfigurator {
+  export interface SkillConfigurator<T> {
     config: {
       requestHandlers: {
-        [index: string]: Function;
+        [index: string]: (ctx: T) => void;
       };
     };
-    on(requestType: string, requestHandler: Function): SkillConfigurator;
-    onLaunchRequest(requestHandler: Function): SkillConfigurator;
-    onIntentRequest(requestHandler: Function): SkillConfigurator;
-    onEventRequest(requestHandler: Function): SkillConfigurator;
-    onSessionEndedRequest(requestHandler: Function): SkillConfigurator;
-    handle(): Function;
+    on(requestType: string, requestHandler: (ctx: T) => void): SkillConfigurator<T>;
+    onLaunchRequest(requestHandler: (ctx: T) => void): SkillConfigurator<T>;
+    onIntentRequest(requestHandler: (ctx: T) => void): SkillConfigurator<T>;
+    onEventRequest(requestHandler: (ctx: T) => void): SkillConfigurator<T>;
+    onSessionEndedRequest(requestHandler: (ctx: T) => void): SkillConfigurator<T>;
+    handle(): (req: any, res: any) => void;
   }
 
   export interface MiddlewareOptions {
