@@ -65,7 +65,7 @@ export class Context implements Clova.ClientContext {
     }
 
     return Object.values(request.intent.slots).reduce((acc, curr) => {
-      return Object.assign({}, acc, { [curr.name]: curr.value });
+      return { ...acc, [curr.name]: curr.value };
     }, {});
   }
 
