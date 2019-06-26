@@ -98,11 +98,11 @@ export class SkillConfigurator implements Clova.SkillConfigurator<Context> {
   /**
    * Create lambda handler for dispatching request.
    *
-   * @returns
+   * @returns {(event: Clova.RequestBody) => Promise<Clova.ResponseBody>}
    * @memberOf SkillConfigurator
    */
-  public lambda() {
-    return async (event: any) => {
+  public lambda(): (event: Clova.RequestBody) => Promise<Clova.ResponseBody> {
+    return async (event: Clova.RequestBody) => {
       const ctx = new Context(event);
 
       const requestType = ctx.requestObject.request.type;
@@ -121,10 +121,10 @@ export class SkillConfigurator implements Clova.SkillConfigurator<Context> {
    * Create firebase handler for dispatching request.
    * However, the contents are express.
    *
-   * @returns
+   * @returns {(req: any, res: any) => void}
    * @memberOf SkillConfigurator
    */
-  public firebase() {
+  public firebase(): (req: any, res: any) => void {
     return this.handle();
   }
 }
