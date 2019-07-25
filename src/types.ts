@@ -44,12 +44,12 @@ declare namespace Clova {
 
   export type Request = LaunchRequest | IntentRequest | EventRequest | SessionEndedRequest;
 
-  export type LaunchRequest = {
-    type: 'LaunchRequest';
-  };
+  interface RequestBase<T extends string> {
+    type: T;
+  }
 
-  export type IntentRequest = {
-    type: 'IntentRequest';
+  export type LaunchRequest = RequestBase<'LaunchRequest'>;
+  export type IntentRequest = RequestBase<'IntentRequest'> & {
     intent: {
       name: string;
       slots: {
@@ -62,9 +62,7 @@ declare namespace Clova {
       };
     };
   };
-
-  export type EventRequest = {
-    type: 'EventRequest';
+  export type EventRequest = RequestBase<'EventRequest'> & {
     requestId: string;
     timestamp: string;
     locale: string;
@@ -82,10 +80,7 @@ declare namespace Clova {
       | audioPlayer.ProgressReportPositionPassed
       | audioPlayer.StreamRequested;
   };
-
-  export type SessionEndedRequest = {
-    type: 'SessionEndedRequest';
-  };
+  export type SessionEndedRequest = RequestBase<'SessionEndedRequest'>;
 
   export type Session = {
     new: boolean;
@@ -228,77 +223,22 @@ declare namespace Clova {
   export type Middleware = (req: express.Request, res: express.Response, next: express.NextFunction) => void;
 
   export namespace audioPlayer {
-    interface PlayFinished {
+    interface PlayBase<T> {
       namespace: 'AudioPlayer';
-      name: 'PlayFinished';
+      name: T;
       payload: {
         offsetInMilliseconds: number;
         token: string;
       };
     }
-
-    interface PlayPaused {
-      namespace: 'AudioPlayer';
-      name: 'PlayPaused';
-      payload: {
-        offsetInMilliseconds: number;
-        token: string;
-      };
-    }
-
-    interface PlayResumed {
-      namespace: 'AudioPlayer';
-      name: 'PlayResumed';
-      payload: {
-        offsetInMilliseconds: number;
-        token: string;
-      };
-    }
-
-    interface PlayStarted {
-      namespace: 'AudioPlayer';
-      name: 'PlayStarted';
-      payload: {
-        offsetInMilliseconds: number;
-        token: string;
-      };
-    }
-
-    interface PlayStopped {
-      namespace: 'AudioPlayer';
-      name: 'PlayStopped';
-      payload: {
-        offsetInMilliseconds: number;
-        token: string;
-      };
-    }
-
-    interface ProgressReportDelayPassed {
-      namespace: 'AudioPlayer';
-      name: 'ProgressReportDelayPassed';
-      payload: {
-        offsetInMilliseconds: number;
-        token: string;
-      };
-    }
-
-    interface ProgressReportIntervalPassed {
-      namespace: 'AudioPlayer';
-      name: 'ProgressReportIntervalPassed';
-      payload: {
-        offsetInMilliseconds: number;
-        token: string;
-      };
-    }
-
-    interface ProgressReportPositionPassed {
-      namespace: 'AudioPlayer';
-      name: 'ProgressReportPositionPassed';
-      payload: {
-        offsetInMilliseconds: number;
-        token: string;
-      };
-    }
+    type PlayFinished = PlayBase<'PlayFinished'>;
+    type PlayPaused = PlayBase<'PlayPaused'>;
+    type PlayResumed = PlayBase<'PlayResumed'>;
+    type PlayStarted = PlayBase<'PlayStarted'>;
+    type PlayStopped = PlayBase<'PlayStopped'>;
+    type ProgressReportDelayPassed = PlayBase<'ProgressReportDelayPassed'>;
+    type ProgressReportIntervalPassed = PlayBase<'ProgressReportIntervalPassed'>;
+    type ProgressReportPositionPassed = PlayBase<'ProgressReportPositionPassed'>;
 
     interface StreamRequested {
       namespace: 'AudioPlayer';
@@ -308,17 +248,13 @@ declare namespace Clova {
   }
 
   export namespace clovaSkill {
-    interface SkillEnabled {
+    interface SkillBase<T extends string> {
       namespace: 'ClovaSkill';
-      name: 'SkillEnabled';
+      name: T;
       payload: null;
     }
-
-    interface SkillDisabled {
-      namespace: 'ClovaSkill';
-      name: 'SkillDisabled';
-      payload: null;
-    }
+    type SkillEnabled = SkillBase<'SkillEnabled'>;
+    type SkillDisabled = SkillBase<'SkillDisabled'>;
   }
 }
 
