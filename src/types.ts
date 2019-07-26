@@ -49,6 +49,7 @@ declare namespace Clova {
   }
 
   export type LaunchRequest = RequestBase<'LaunchRequest'>;
+
   export type IntentRequest = RequestBase<'IntentRequest'> & {
     intent: {
       name: string;
@@ -62,6 +63,7 @@ declare namespace Clova {
       };
     };
   };
+
   export type EventRequest = RequestBase<'EventRequest'> & {
     requestId: string;
     timestamp: string;
@@ -80,6 +82,7 @@ declare namespace Clova {
       | audioPlayer.ProgressReportPositionPassed
       | audioPlayer.StreamRequested;
   };
+
   export type SessionEndedRequest = RequestBase<'SessionEndedRequest'>;
 
   export type Session = {
