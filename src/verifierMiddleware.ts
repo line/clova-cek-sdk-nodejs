@@ -1,5 +1,5 @@
 import { raw } from 'body-parser';
-import express from 'express';
+import * as express from 'express';
 import Clova from './types';
 import verifier from './verifier';
 
