@@ -170,6 +170,29 @@ export class Context implements Clova.ClientContext {
   }
 
   /**
+   * Set simple reprompt content
+   *
+   * @param {Clova.SpeechInfoObject | Clova.SpeechInfoObject[]} speechInfo
+   * @memberOf Context
+   */
+  public setSimpleReprompt(speechInfo: Clova.SpeechInfoObject | Clova.SpeechInfoObject[]): void {
+    let outputSpeech :  Clova.OutputSpeechSimple | Clova.OutputSpeechList;
+    if (Array.isArray(speechInfo)) {
+      outputSpeech = {
+        type: 'SpeechList',
+        values: speechInfo,
+      };
+    } else {
+      outputSpeech = {
+        type: 'SimpleSpeech',
+        values: speechInfo,
+      };
+    }
+
+    this.setReprompt(outputSpeech);
+  }
+
+  /**
    * Set SimpleSpeech object for outputSpeech content.
    *
    * @param {Clova.SpeechInfoObject} speechInfo
