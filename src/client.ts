@@ -1,3 +1,4 @@
+import * as express from 'express';
 import { Context } from './context';
 import Clova from './types';
 
@@ -69,13 +70,13 @@ export class SkillConfigurator implements Clova.SkillConfigurator<Context> {
   }
 
   /**
-   * Create esxpress route handler for dispatching request.
+   * Create express route handler for dispatching request.
    *
-   * @returns {(req: any, res: any) => void}
+   * @returns {(req: express.Request, res: express.Response) => void}
    * @memberOf SkillConfigurator
    */
-  public handle(): (req: any, res: any) => void {
-    return async (req: any, res: any) => {
+  public handle(): (req: express.Request, res: express.Response) => void {
+    return async (req: express.Request, res: express.Response) => {
       const ctx = new Context(req.body);
 
       try {
@@ -121,10 +122,10 @@ export class SkillConfigurator implements Clova.SkillConfigurator<Context> {
    * Create firebase handler for dispatching request.
    * However, the contents are express.
    *
-   * @returns {(req: any, res: any) => void}
+   * @returns {(req: express.Request, res: express.Response) => void}
    * @memberOf SkillConfigurator
    */
-  public firebase(): (req: any, res: any) => void {
+  public firebase(): (req: express.Request, res: express.Response) => void {
     return this.handle();
   }
 }
