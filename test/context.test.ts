@@ -159,6 +159,16 @@ describe('Clova Skill Client Context: LaunchRequest', () => {
       userId: 'V0qe',
     });
   });
+
+  it('should get empty object from getSlotValueTypes', () => {
+    const slots = context.getSlotValueTypes();
+    expect(slots).toEqual({});
+  });
+
+  it('should get empty object from getSlotUnits', () => {
+    const slots = context.getSlotUnits();
+    expect(slots).toEqual({});
+  });
 });
 
 describe('Clova Skill Client Context: IntentRequest', () => {
